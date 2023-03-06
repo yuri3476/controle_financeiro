@@ -4,30 +4,30 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
-}
-
-.login h2 {
+  }
+  
+  .login h2 {
   text-align: center;
   margin-bottom: 20px;
   font-family: "Gill Sans", sans-serif;
-}
-
-.form-group {
+  }
+  
+  .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   width: 100%;
-}
-
-.form-group label {
+  }
+  
+  .form-group label {
   margin-bottom: 10px;
   font-weight: bold;
   font-size: 14px;
-  color: #000;
+  color: #333;
   font-family: "Gill Sans", sans-serif;
-}
-
-.form-group input {
+  }
+  
+  .form-group input {
   padding: 10px;
   border: none;
   border-radius: 10px;
@@ -35,38 +35,42 @@
   font-size: 14px;
   color: #333;
   width: 100%;
-}
-
-button[type="submit"] {
-  background-color: #fff;
-  color: #007bff;
-  border: 1px solid #007bff;
+  }
+  
+  button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-button[type="submit"]:hover{
-  background-color: #007bff;
-  color: #fff;
-}
-
-p {
   font-family: "Gill Sans", sans-serif;
-}
-
-.login .forgot-password-button {
-  background-color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  }
+  
+  button[type="submit"]:hover{
+  background-color: #0056b3;
+  }
+  
+  p {
+  font-family: "Gill Sans", sans-serif;
+  }
+  
+  .login .forgot-password-button {
+  background-color: transparent;
   color: #007bff;
-  border: 1px solid #007bff;
+  border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.login .forgot-password-button:hover {
-  background-color: #007bff;
-  color: #fff;
-}
+  font-family: "Gill Sans", sans-serif;
+  font-size: 14px;
+  }
+  
+  .login .forgot-password-button:hover {
+  background-color: #f2f2f2;
+  color: #333;
+  }

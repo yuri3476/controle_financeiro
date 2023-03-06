@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './Login.css';
-import Login from './Login';
+import './login/Login.css';
+import Login from './login/Login';
 
 import reportWebVitals from './reportWebVitals';
 

@@ -1,0 +1,67 @@
+.cadastro-usuario {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+  
+  .cadastro-usuario h2 {
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  input[type="submit"],
+  button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3f51b5;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover,
+  button:hover {
+    background-color: #2c3e50;
+  }
+  
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    box-shadow: 0 2px 5px rgba(63, 81, 181, 0.5);
+  }
+  
+  @media (max-width: 768px) {
+    .cadastro-usuario {
+      max-width: 400px;
+    }
+  }
+  
