@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
@@ -7,7 +7,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [pageTitle] = useState("Controle Financeiro");
   const [forgotPassword, setForgotPassword] = useState(false);
-  // const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     document.title = pageTitle;
@@ -21,9 +20,6 @@ function Login() {
     setPassword(event.target.value);
   };
 
-  // const handleRememberMeChange = (event) => {
-  //   setRememberMe(event.target.checked);
-  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,6 +39,7 @@ function Login() {
     console.log(`Redefinir senha para o e-mail: ${email}`);
     setForgotPassword(false);
   };
+
 
   if (forgotPassword) {
     return (
@@ -88,21 +85,9 @@ function Login() {
             onChange={handlePasswordChange}
           />
         </div>
-        {/* <div className="form-group">
-          <div className="checkbox-wrapper">
-          <input
-            type="checkbox"
-            id="remember-me"
-            checked={rememberMe}
-            onChange={handleRememberMeChange}
-          />
-          <label className="checkbox-label" htmlFor="remember-me">
-            Permanecer logado
-          </label>
-          </div>
-        </div> */}
         <button type="submit">Entrar</button>
         <button className="forgot-password-button" onClick={handleForgotPassword}>Esqueci minha senha</button>
+        <Link to="/cadastro" className="register-link">Cadastre-se</Link>
       </form>
     </div>
   );

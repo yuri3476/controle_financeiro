@@ -8,6 +8,7 @@
   
   .cadastro-usuario h2 {
     text-align: center;
+    font-family: "Gill Sans", sans-serif;
   }
   
   .form-group {
@@ -20,9 +21,10 @@
     margin-bottom: 5px;
   }
   
-  input[type="text"],
   input[type="email"],
   input[type="tel"],
+  input[type="date"],
+  input[type="name"],
   textarea,
   select {
     width: 100%;
