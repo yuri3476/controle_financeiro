@@ -1,39 +1,33 @@
-import React from 'react';
-import {MdDelete, MdArrowCircleUp, MdArrowCircleDown} from 'react-icons/md';
+import React from "react";
+import GridItem from "../GridItem";
+import * as C from "./styles";
 
-import { Table, Th, Td } from './styles';
+const Grid = ({ itens, setItens }) => {
+  const onDelete = (ID) => {
+    const newArray = itens.filter((transaction) => transaction.id !== ID);
+    setItens(newArray);
+    localStorage.setItem("transactions", JSON.stringify(newArray));
+  };
 
-function Grid({dadosFin, onDelete}) {
   return (
-    <Table>
-      <thead>
-        <tr>
-          <Th width={40}>Descricao</Th>
-          <Th width={40}>Valor</Th>
-          <Th width={10} alignCenter>Tipo</Th>
-          <Th width={10}></Th>
-        </tr>
-      </thead>
-      <tbody>
-        {dadosFin?.map((dadosFin, index) => (
-          <tr key={index}>
-          <Td>{dadosFin.descricao}</Td>
-          <Td>R${Math.abs(dadosFin.valor).toFixed(2)}</Td>
-          <Td alignCenter>
-            {dadosFin.tipo === 1 ? (
-             <MdArrowCircleDown color='red'/>
-            ) : (
-              <MdArrowCircleUp color='green'/>
-            )}
-          </Td>
-          <Td alignCenter>
-            <MdDelete onClick={() => onDelete(index)}/>
-          </Td>
-        </tr>
+    <C.Table>
+      <C.Thead>
+        <C.Tr>
+          <C.Th width={40}>Descrição</C.Th>
+          <C.Th width={40}>Valor</C.Th>
+          <C.Th width={10} alignCenter>
+            Tipo
+          </C.Th>
+          <C.Th width={10}></C.Th>
+        </C.Tr>
+      </C.Thead>
+      <C.Tbody>
+        {itens?.map((item, index) => (
+          <GridItem key={index} item={item} onDelete={onDelete} />
         ))}
-      </tbody>
-    </Table>
-  )
-}
+      </C.Tbody>
+    </C.Table>
+  );
+};
 
 export default Grid;
