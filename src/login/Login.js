@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pageTitle] = useState("Controle Financeiro");
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -12,18 +12,27 @@ function Login() {
     document.title = pageTitle;
   }, [pageTitle]);
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Username: ${username}, Password: ${password}`);
+    const response = await fetch('https://artemiswebapi.azurewebsites.net/api/auth/v1/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    localStorage.setItem('accessToken', data.accessToken)
+    localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
+    localStorage.setItem('refreshToken', data.refreshToken)
   };
 
   const handleForgotPassword = () => {
@@ -68,12 +77,12 @@ function Login() {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Usuário</label>
+          <label htmlFor="email">Usuário</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
           />
         </div>
         <div className="form-group">
