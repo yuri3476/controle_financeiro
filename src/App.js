@@ -48,13 +48,11 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
-    <Fragment>
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/cadastro" element={<CadastroUsuario/>} />
       </Routes>
 
-      </Fragment>
       <GlobalStyle />
     </BrowserRouter>
     
