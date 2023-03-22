@@ -95,4 +95,23 @@
   .register-link:hover {
     background-color: #0056b3;
   }
+
+  .submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-left: 60px;
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
   
