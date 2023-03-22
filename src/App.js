@@ -4,6 +4,11 @@ import Header from "./components/Header";
 import Resume from "./components/Resume";
 import Form from "./components/Form";
 
+import { Fragment } from "react";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './login/Login';
+import CadastroUsuario from './cadastro/CadastroUsuario';
+
 const App = () => {
   const data = localStorage.getItem("transactions");
   const [transactionsList, setTransactionsList] = useState(
@@ -42,6 +47,17 @@ const App = () => {
 
   return (
     <>
+    <BrowserRouter>
+    <Fragment>
+      <Routes>
+        <Route path="/" element={<Login/>} />
+        <Route path="/cadastro" element={<CadastroUsuario/>} />
+      </Routes>
+
+      </Fragment>
+      <GlobalStyle />
+    </BrowserRouter>
+    
       <Header />
       <Resume income={income} expense={expense} total={total} />
       <Form
@@ -49,7 +65,7 @@ const App = () => {
         transactionsList={transactionsList}
         setTransactionsList={setTransactionsList}
       />
-      <GlobalStyle />
+
     </>
   );
 };
