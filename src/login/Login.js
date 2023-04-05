@@ -7,6 +7,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const [pageTitle] = useState("Controle Financeiro");
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+
 
   useEffect(() => {
     document.title = pageTitle;
@@ -29,11 +31,19 @@ function Login() {
       },
       body: JSON.stringify({ email, password })
     });
-    const data = await response.json();
-    localStorage.setItem('accessToken', data.accessToken)
-    localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
-    localStorage.setItem('refreshToken', data.refreshToken)
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('accessToken', data.accessToken)
+      localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
+      localStorage.setItem('refreshToken', data.refreshToken)
+      // redirecionar para a tela desejada em caso de login bem sucedido
+      window.location.href = '/dashboard';
+    } else {
+      // definir o estado de erro em caso de login mal sucedido
+      setLoginError(true);
+    }
   };
+  
 
   const handleForgotPassword = () => {
     setForgotPassword(true);
@@ -75,6 +85,12 @@ function Login() {
   return (
     <div className="login">
       <h2>Login</h2>
+      {loginError && (
+        <div className="error-popup">
+          <p>Houve um erro no login. Por favor, verifique suas credenciais.</p>
+          <button onClick={() => setLoginError(false)}>Fechar</button>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Usuário</label>
@@ -94,8 +110,7 @@ function Login() {
             onChange={handlePasswordChange}
           />
         </div>
-        <Link to="/dashboard" className='submit-button'>Entrar</Link>
-        {/* <button type="submit">Entrar</button> */}
+        <Link to="/dashboard" className='submit-button' onClick={handleSubmit}>Entrar</Link>
         <button className="forgot-password-button" onClick={handleForgotPassword}>Esqueci minha senha</button>
         <Link to="/cadastro" className="register-link">Cadastre-se</Link>
       </form>
