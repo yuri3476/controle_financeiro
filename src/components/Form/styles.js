@@ -21,7 +21,10 @@ export const InputContent = styled.div`
   flex-direction: column;
 `;
 
-export const Label = styled.label``;
+export const Label = styled.label`
+  margin-left: 20px;
+  margin-right: 20px;
+`;
 
 export const Input = styled.input`
   outline: none;
@@ -29,6 +32,8 @@ export const Input = styled.input`
   padding: 5px 10px;
   font-size: 15px;
   border: 1px solid #ccc;
+  margin-left: 20px;
+  margin-right: 20px;
 `;
 
 export const RadioGroup = styled.div`
