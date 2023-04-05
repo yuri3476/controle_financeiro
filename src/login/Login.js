@@ -29,6 +29,7 @@ function Login() {
       },
       body: JSON.stringify({ email, password })
     });
+
     const data = await response.json();
     localStorage.setItem('accessToken', data.accessToken)
     localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
@@ -94,7 +95,7 @@ function Login() {
             onChange={handlePasswordChange}
           />
         </div>
-        <Link to="/cadastro" className='submit-button'>Entrar</Link>
+        <Link to="/cadastro" className='submit-button' onClick={handleSubmit}>Entrar</Link>
         {/* <button type="submit">Entrar</button> */}
         <button className="forgot-password-button" onClick={handleForgotPassword}>Esqueci minha senha</button>
         <Link to="/cadastro" className="register-link">Cadastre-se</Link>
