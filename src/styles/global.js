@@ -11,6 +11,11 @@ const Global = createGlobalStyle`
         font-family: 'Poppins', San-Serif;
         background-color: #f2f2f2;
     }
+    
+    .btn {
+    background-color: teal !important;
+    border-color: white !important;
+    }
 
 `;
 

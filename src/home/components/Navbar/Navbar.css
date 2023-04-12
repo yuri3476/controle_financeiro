@@ -1,0 +1,22 @@
+.brand {
+  margin: 10px;
+  padding: 0px 10px 0px 10px;
+  border-radius: 10px;
+  background-color: teal;
+  transition: background-color 0.3s ease-in-out; /* Adicionando uma transição suave */
+  color: white;
+  text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000,
+    -1px 1px 1px #000; /* configuração da borda com sombras */
+}
+
+.brand:hover {
+  background-color: rgb(0, 179, 179); /* Cor quando o mouse está em cima */
+}
+.nav {
+  margin-top: 5px;
+  border-radius: 10px;
+}
+
+.navbar-toggler {
+  margin: 10px;
+}
