@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import * as C from "./styles";
 import Header from "../components/Header";
 import Resume from "../components/Resume";
 import Form from "../components/Form";

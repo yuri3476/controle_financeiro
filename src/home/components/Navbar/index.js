@@ -38,11 +38,6 @@ const Navbar = ({ income, expense, total }) => {
               Cadastro
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link brand" href="/dashboard">
-              Dashboard
-            </a>
-          </li>
         </ul>
       </div>
     </nav>
