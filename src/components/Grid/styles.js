@@ -19,7 +19,7 @@ export const Tr = styled.tr``;
 export const Th = styled.th`
   text-align: start;
   border-bottom: inset;
-  padding-bottom: 5px;
+  padding: 15px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width + "%" : "auto")};
 `;
