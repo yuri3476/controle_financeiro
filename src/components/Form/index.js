@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "../Grid";
 import DropDown from "../DropDown";
 import * as C from "./styles";
@@ -8,28 +8,46 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
   const [isExpense, setExpense] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const generateID = () => Math.round(Math.random() * 1000);
 
-  // categorias mocadas
-  const categories = [
-    [1, "Salário"],
-    [2, "Contas"],
-    [3, "Comida"],
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const response = await fetch(
+          "https://artemiswebapi.azurewebsites.net/api/Categoria/ObterCategorias",
+          {
+            headers: headers,
+          }
+        );
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSave = () => {
     if (!desc || !amount) {
       alert("Informe a descrição e o valor!");
       return;
-    } else if (document.querySelector("#dropDownCategory").value == "0") {
+    } else if (document.querySelector("#dropDownCategory").value === "0") {
       alert("Selecione uma Categoria!");
       return;
     } else if (amount < 1) {
       alert("O valor tem que ser positivo!");
       return;
     }
-
+  
     const transaction = {
       id: generateID(),
       desc: desc,
@@ -40,13 +58,34 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       amount: amount,
       expense: isExpense,
     };
-
+  
     handleAdd(transaction);
-
+  
     setDesc("");
     document.querySelector("#dropDownCategory").selectedIndex = 0;
     setAmount("");
+  
+    // Adicione o código para realizar a requisição com o token de acesso
+    const token = "SEU_TOKEN_DE_ACESSO";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+  
+    fetch('https://artemiswebapi.azurewebsites.net/api/Categoria/ObterCategorias', {
+      method: 'GET',
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Armazena a lista de categorias na variável 'categorias'
+        setCategories(data);
+      })
+      .catch(error => {
+        // Lida com erros na requisição
+        console.error(error);
+      });
   };
+  
 
   return (
     <>

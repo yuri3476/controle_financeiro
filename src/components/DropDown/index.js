@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as C from "./styles";
 
-const DropDown = ({ categories }) => {
+const DropDown = ({ categories, onChange }) => {
   return (
-    <C.Select id="dropDownCategory">
+    <C.Select id="dropDownCategory" onChange={onChange}>
       <option value="0">Selecione uma opção</option>
       {categories.map((option) => (
-        <option key={option[0]} value={option[0]}>
-          {option[1]}
+        <option key={option.id} value={option.id}>
+          {option.nome}
         </option>
       ))}
     </C.Select>
