@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './CadastroUsuario.css';
-import Endereco from './Endereco.js';
+
 
 function CadastroUsuario() {
   const [nome, setNome] = useState('');
