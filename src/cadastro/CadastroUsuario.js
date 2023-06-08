@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './CadastroUsuario.css';
+import Endereco from './Endereco.js';
 
 function CadastroUsuario() {
   const [nome, setNome] = useState('');
@@ -12,10 +13,16 @@ function CadastroUsuario() {
   const [sexo, setSexo] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [enderecoClasse, setEnderecoClasse] = useState({
+    logradouro: '',
+    bairro: '',
+    localidade: '',
+    uf: '',
+  });
 
   const formatarCEP = (cep) => {
     cep = cep.replace(/\D/g, '');
-    cep = cep.replace(/^(\d{5})(\d)/ , '$1-$2');
+    cep = cep.replace(/^(\d{5})(\d)/, '$1-$2');
     return cep;
   };
 
@@ -28,7 +35,15 @@ function CadastroUsuario() {
         .then((response) => {
           const { logradouro, bairro, localidade, uf } = response.data;
           setEndereco(`${logradouro}, ${bairro}, ${localidade} - ${uf}`);
+
+          setEnderecoClasse({
+            logradouro,
+            bairro,
+            localidade,
+            uf,
+          });
         })
+
         .catch((error) => {
           console.log(error);
         });
@@ -37,7 +52,8 @@ function CadastroUsuario() {
 
   const formatarTelefone = (telefone) => {
     let telFormatado = telefone.replace(/\D/g, '');
-    telFormatado = telFormatado.replace(/^(\d{2})(\d)/g, '($1) $2');
+    const regex = /^(\d{2})(\d{5})(\d+)/g;
+    telFormatado = telFormatado.replace(regex, '($1) $2-$3');
     return telFormatado;
   };
 
@@ -59,6 +75,45 @@ function CadastroUsuario() {
     console.log(`Data de Nascimento: ${dataNascimento}`);
     console.log(`Sexo: ${sexo}`);
     console.log(`Senha: ${senha}`);
+
+    const dataNascimentoFormatada = new Date(dataNascimento).toISOString();
+    const dados = {
+      name: nome,
+      email: email,
+      password: senha,
+      pessoa: {
+        nome: nome,
+        telefone: parseInt(telefone.replace(/[\s()-]/g, '')),
+        endereco: {
+          cep: parseInt(cep.replace(/[\s-]/g, '')),
+          logradouro: enderecoClasse.logradouro,
+          bairro: enderecoClasse.bairro,
+          localidade: enderecoClasse.localidade,
+          uf: enderecoClasse.uf,
+        },
+        dataDeNascimento: dataNascimentoFormatada,
+        sexo: sexo == "M" ? 1 : 2
+      },
+    };
+
+
+
+    const requestOptions = {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    };
+
+    const url = 'https://artemiswebapi.azurewebsites.net/api/Usuario/v1/register';
+
+    axios
+      .post(url, dados, requestOptions)
+      .then(() => {
+        alert('Usuário Cadastrado!!');
+      })
+      .catch((erro) => {
+        alert(erro);
+      });
   };
 
   return (
@@ -112,8 +167,7 @@ function CadastroUsuario() {
             id="telefone"
             value={telefone}
             onChange={handleTelefoneChange}
-            maxLength="14"
-            pattern="\(\d{2}\)\s\d{4}-\d{4}"
+            maxLength="15"
             required
           />
         </div>
@@ -159,7 +213,6 @@ function CadastroUsuario() {
             <option value=""></option>
             <option value="F">Feminino</option>
             <option value="M">Masculino</option>
-            <option value="O">Outro</option>
           </select>
         </div>
         <button type="submit">Cadastrar</button>
