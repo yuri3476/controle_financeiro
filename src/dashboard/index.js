@@ -4,44 +4,66 @@ import Resume from "../components/Resume";
 import Form from "../components/Form";
 
 const Dashboard = () => {
-  const data = localStorage.getItem("transactions");
-  const [transactionsList, setTransactionsList] = useState(
-    data ? JSON.parse(data) : []
-  );
+  const [transactionsList, setTransactionsList] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const amountExpense = transactionsList
-      .filter((item) => item.expense)
-      .map((transaction) => Number(transaction.amount));
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-    const amountIncome = transactionsList
-      .filter((item) => !item.expense)
-      .map((transaction) => Number(transaction.amount));
+        const response = await fetch(
+          "https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos",
+          { headers }
+        );
+        const data = await response.json();
+        setTransactionsList(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-    const expense = amountExpense.reduce((acc, cur) => acc + cur, 0).toFixed(2);
-    const income = amountIncome.reduce((acc, cur) => acc + cur, 0).toFixed(2);
+    fetchData();
+  }, []);
 
-    const total = Math.abs(income - expense).toFixed(2);
+  useEffect(() => {
+    const calculateAmounts = () => {
+      const amountExpense = transactionsList
+        .filter((item) => item.tipo === 2)
+        .map((transaction) => Number(transaction.valor));
 
-    setIncome(`R$ ${income}`);
-    setExpense(`R$ ${expense}`);
-    setTotal(`${Number(income) < Number(expense) ? "-" : ""}R$ ${total}`);
+      const amountIncome = transactionsList
+        .filter((item) => item.tipo === 1)
+        .map((transaction) => Number(transaction.valor));
+
+      const totalExpense = amountExpense.reduce((acc, cur) => acc + cur, 0);
+      const totalIncome = amountIncome.reduce((acc, cur) => acc + cur, 0);
+
+      const income = totalIncome.toFixed(2);
+      const expense = totalExpense.toFixed(2);
+      const total = (totalIncome - totalExpense).toFixed(2);
+
+      setIncome(`R$ ${expense}`);
+      setExpense(`R$ ${income}`);
+      setTotal(`${Number(income) < Number(expense) ? "-" : ""}R$ ${total}`);
+    };
+
+    calculateAmounts();
   }, [transactionsList]);
 
   const handleAdd = (transaction) => {
     const newArrayTransactions = [...transactionsList, transaction];
 
     setTransactionsList(newArrayTransactions);
-
-    localStorage.setItem("transactions", JSON.stringify(newArrayTransactions));
   };
 
   return (
     <div>
-      {" "}
       <Header />
       <Resume income={income} expense={expense} total={total} />
       <Form

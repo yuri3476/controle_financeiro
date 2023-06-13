@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GridItem from "../GridItem";
 import * as C from "./styles";
 
-const Grid = ({ itens, setItens }) => {
+const Grid = () => {
+  const [itens, setItens] = useState([]);
+
   const onDelete = (ID) => {
-    const newArray = itens.filter((transaction) => transaction.id !== ID);
-    setItens(newArray);
-    localStorage.setItem("transactions", JSON.stringify(newArray));
+    
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const response = await fetch(
+          "https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos",
+          { headers }
+        );
+        const data = await response.json();
+        setItens(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <C.Table>

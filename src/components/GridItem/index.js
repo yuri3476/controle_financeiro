@@ -1,10 +1,6 @@
 import React from "react";
 import * as C from "./styles";
-import {
-  FaRegArrowAltCircleUp,
-  FaRegArrowAltCircleDown,
-  FaTrash,
-} from "react-icons/fa";
+import { FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaTrash } from "react-icons/fa";
 
 const GridItem = ({ item, onDelete }) => {
   const formatValue = (value) => {
@@ -18,11 +14,11 @@ const GridItem = ({ item, onDelete }) => {
 
   return (
     <C.Tr>
-      <C.Td>{item.desc}</C.Td>
-      <C.Td>{item.category}</C.Td>
-      <C.Td>{formatValue(item.amount)}</C.Td>
+      <C.Td>{item.nome}</C.Td>
+      <C.Td>{item.nomeCategoria}</C.Td>
+      <C.Td>{formatValue(item.valor)}</C.Td>
       <C.Td alignCenter>
-        {item.expense ? (
+        {item.tipo === 1 ? (
           <FaRegArrowAltCircleDown color="red" />
         ) : (
           <FaRegArrowAltCircleUp color="green" />
