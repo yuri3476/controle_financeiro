@@ -36,7 +36,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     fetchCategories();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!desc || !amount) {
       alert("Informe a descrição e o valor!");
       return;
@@ -49,44 +49,39 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     }
   
     const transaction = {
-      id: generateID(),
-      desc: desc,
-      idcategory: document.querySelector("#dropDownCategory").value,
-      category:
-        document.querySelector("#dropDownCategory").selectedOptions[0]
-          .textContent,
-      amount: amount,
-      expense: isExpense,
+      nome: desc,
+      categoriaId: document.querySelector("#dropDownCategory").value,
+      valor: parseFloat(amount),
+      tipo: isExpense ? 1 : 2,
     };
   
-    handleAdd(transaction);
-  
-    setDesc("");
-    document.querySelector("#dropDownCategory").selectedIndex = 0;
-    setAmount("");
-  
-    // Adicione o código para realizar a requisição com o token de acesso
-    const token = "SEU_TOKEN_DE_ACESSO";
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-  
-    fetch('https://artemiswebapi.azurewebsites.net/api/Categoria/ObterCategorias', {
-      method: 'GET',
-      headers: headers,
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Armazena a lista de categorias na variável 'categorias'
-        setCategories(data);
-      })
-      .catch(error => {
-        // Lida com erros na requisição
-        console.error(error);
-      });
+    try {
+      const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await fetch(
+        "https://artemiswebapi.azurewebsites.net/api/Categoria/InserirGasto",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(transaction),
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Transação adicionada com sucesso!");
+        window.location.reload(); // Recarrega a página após a transação ser adicionada com sucesso
+      } else {
+        alert("Erro ao adicionar a transação. Por favor, tente novamente.");
+      }
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+    }
   };
   
-
   return (
     <>
       <C.Container>
@@ -114,14 +109,14 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
               id="rIncome"
               defaultChecked
               name="group1"
-              onChange={() => setExpense(!isExpense)}
+              onChange={() => setExpense(false)}
             />
             <C.Label htmlFor="rIncome">Entrada</C.Label>
             <C.Input
               type="radio"
               id="rExpenses"
               name="group1"
-              onChange={() => setExpense(!isExpense)}
+              onChange={() => setExpense(true)}
             />
             <C.Label htmlFor="rExpenses">Saída</C.Label>
           </C.RadioGroup>
