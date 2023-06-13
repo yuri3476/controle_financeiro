@@ -4,9 +4,10 @@ import * as C from "./styles";
 
 const Grid = () => {
   const [itens, setItens] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const onDelete = (ID) => {
-    
+    // Implemente a lógica de exclusão do item com o ID fornecido
   };
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const Grid = () => {
         };
 
         const response = await fetch(
-          "https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos",
+          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?pagina=${currentPage}`,
           { headers }
         );
         const data = await response.json();
@@ -29,7 +30,17 @@ const Grid = () => {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage]);
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <C.Table>
@@ -49,6 +60,12 @@ const Grid = () => {
           <GridItem key={index} item={item} onDelete={onDelete} />
         ))}
       </C.Tbody>
+      <C.Pagination>
+        <C.PaginationButton onClick={goToPreviousPage}>
+          Anterior
+        </C.PaginationButton>
+        <C.PaginationButton onClick={goToNextPage}>Próxima</C.PaginationButton>
+      </C.Pagination>
     </C.Table>
   );
 };
