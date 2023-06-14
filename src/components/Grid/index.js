@@ -15,6 +15,7 @@ const Grid = () => {
       try {
         const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
         const headers = {
+          mode: `no-cors`,
           Authorization: `Bearer ${token}`,
         };
 
@@ -66,6 +67,7 @@ const Grid = () => {
         </C.PaginationButton>
         <C.PaginationButton onClick={goToNextPage}>Próxima</C.PaginationButton>
       </C.Pagination>
+      <br />
     </C.Table>
   );
 };

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Resume from "../components/Resume";
 import Form from "../components/Form";
+import PieChartt from "../components/PieChartt";
+import * as C from "./styles";
 
 const Dashboard = () => {
   const [transactionsList, setTransactionsList] = useState([]);
@@ -46,7 +48,7 @@ const Dashboard = () => {
 
       const income = totalIncome.toFixed(2);
       const expense = totalExpense.toFixed(2);
-      const total = (totalIncome - totalExpense).toFixed(2);
+      const total = (totalExpense - totalIncome).toFixed(2);
 
       setIncome(`R$ ${expense}`);
       setExpense(`R$ ${income}`);
@@ -62,10 +64,23 @@ const Dashboard = () => {
     setTransactionsList(newArrayTransactions);
   };
 
+  let transactions1 = transactionsList.filter(function (transaction) {
+    return transaction.tipo === 1;
+  });
+
+  let transactions2 = transactionsList.filter(function (transaction) {
+    return transaction.tipo === 2;
+  });
+
   return (
     <div>
       <Header />
       <Resume income={income} expense={expense} total={total} />
+      <C.Container>
+        <PieChartt data={transactions2} />
+        <PieChartt data={transactions1} />
+        <PieChartt data={transactionsList} />
+      </C.Container>
       <Form
         handleAdd={handleAdd}
         transactionsList={transactionsList}

@@ -24,7 +24,7 @@ export const Th = styled.th`
   width: ${(props) => (props.width ? props.width + "%" : "auto")};
 `;
 
-export const Pagination = styled.div`
+export const Pagination = styled.tfoot`
   display: flex;
   justify-content: center;
   align-items: center;
